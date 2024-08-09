@@ -4,7 +4,7 @@ import ScoopOption from "../ScoopOption";
 import React from "react";
 test("indicate if scoop count is non-int or out of range", async () => {
   const user = userEvent.setup();
-  render(<ScoopOption />);
+  render(<ScoopOption name={""} imagePath={""} />);
 
   // expect input to be invalid with negative number
   const vanillaInput = screen.getByRole("spinbutton");

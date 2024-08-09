@@ -5,7 +5,12 @@ import Row from "react-bootstrap/Row";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import React from "react";
 
-export default function ScoopOptions({ name, imagePath }) {
+interface ScoopOptionProps{
+  name: string,
+  imagePath: string,
+}
+
+export default function ScoopOptions({ name, imagePath }:ScoopOptionProps) {
   const { updateItemCount } = useOrderDetails();
 
   const [isValid, setIsValid] = useState(true);

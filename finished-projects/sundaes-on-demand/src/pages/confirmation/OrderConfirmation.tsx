@@ -3,6 +3,11 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import AlertBanner from "../common/AlertBanner";
+import React from "react";
+
+interface OrderConfirmationProps{
+  
+}
 
 export default function OrderConfirmation({ setOrderPhase }) {
   const { resetOrder } = useOrderDetails();
