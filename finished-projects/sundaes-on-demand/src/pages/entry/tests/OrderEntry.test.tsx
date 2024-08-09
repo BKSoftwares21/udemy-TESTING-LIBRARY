@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { HttpResponse, http } from "msw";
 import { server } from "../../../mocks/server";
 import OrderEntry from "../OrderEntry";
-
+import React from "react";
 test("handles error for scoops and toppings routes", async () => {
   server.resetHandlers(
     http.get("http://localhost:3030/scoops", () => {

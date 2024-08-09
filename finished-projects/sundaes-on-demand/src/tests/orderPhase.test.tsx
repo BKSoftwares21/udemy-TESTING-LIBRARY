@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
-
+import '@testing-library/jest-dom';
+import React from "react";
 test("Order phases for happy path", async () => {
   const user = userEvent.setup();
   // render app

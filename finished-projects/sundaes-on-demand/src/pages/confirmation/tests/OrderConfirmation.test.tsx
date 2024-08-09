@@ -3,6 +3,7 @@ import { server } from "../../../mocks/server";
 import { HttpResponse, http } from "msw";
 
 import OrderConfirmation from "../OrderConfirmation";
+import React from "react";
 
 test("error response from server for submitting order", async () => {
   // override default msw response for options endpoint with error response
@@ -12,7 +13,7 @@ test("error response from server for submitting order", async () => {
     })
   );
 
-  render(<OrderConfirmation />);
+  render(<OrderConfirmation setOrderPhase={undefined} />);
 
   const alert = await screen.findByRole("alert");
   expect(alert).toHaveTextContent(

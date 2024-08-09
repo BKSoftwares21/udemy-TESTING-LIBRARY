@@ -2,6 +2,8 @@ import { render, screen } from "../../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
 import Options from "../Options";
 import OrderEntry from "../OrderEntry";
+import React from "react";
+
 
 test("update scoop subtotal when scoops change", async () => {
   const user = userEvent.setup();
@@ -57,7 +59,7 @@ describe("grand total", () => {
     const user = userEvent.setup();
 
     // Test that the total starts out at $0.00
-    render(<OrderEntry />);
+    render(<OrderEntry setOrderPhase={undefined} />);
     const grandTotal = screen.getByRole("heading", { name: /Grand total: \$/ });
     expect(grandTotal).toHaveTextContent("0.00");
 
@@ -79,7 +81,7 @@ describe("grand total", () => {
 
   test("grand total updates properly if topping is added first", async () => {
     const user = userEvent.setup();
-    render(<OrderEntry />);
+    render(<OrderEntry setOrderPhase={undefined} />);
     const grandTotal = screen.getByRole("heading", { name: /Grand total: \$/ });
 
     // add cherries and check grand total
@@ -100,7 +102,7 @@ describe("grand total", () => {
 
   test("grand total updates properly if item is removed", async () => {
     const user = userEvent.setup();
-    render(<OrderEntry />);
+    render(<OrderEntry setOrderPhase={undefined} />);
 
     // add cherries
     const cherriesCheckbox = await screen.findByRole("checkbox", {
