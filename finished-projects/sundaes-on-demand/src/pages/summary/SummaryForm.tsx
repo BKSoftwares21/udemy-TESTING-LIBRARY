@@ -4,16 +4,17 @@ import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 
-export default function SummaryForm({ setOrderPhase }) {
+interface SummaryFormProps {
+  setOrderPhase: (phase: string) => void;
+}
+
+export default function SummaryForm({ setOrderPhase }: SummaryFormProps) {
   const [tcChecked, setTcChecked] = useState(false);
 
-  function handleSubmit(event) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // pass along to the next phase.
-    // The next page will handle submitting order from context.
     setOrderPhase("completed");
-  }
+  };
 
   const popover = (
     <Popover id="popover-basic">
@@ -25,7 +26,9 @@ export default function SummaryForm({ setOrderPhase }) {
     <span>
       I agree to
       <OverlayTrigger placement="right" overlay={popover}>
-        <span style={{ color: "blue" }}> Terms and Conditions</span>
+        <span style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}>
+          Terms and Conditions
+        </span>
       </OverlayTrigger>
     </span>
   );
