@@ -10,7 +10,7 @@ interface Topping {
   imagePath: string;
 }
 
-interface OrderResponse {
+interface Status {
   orderNumber: number;
 }
 
@@ -30,7 +30,7 @@ export const handlers = [
     ]);
   }),
 
-  http.post<OrderResponse>("http://localhost:3030/order", async () => {
+  http.post<Status>("http://localhost:3030/order", async () => {
     // add a 100ms pause here to give jest a chance to see the "loading" state.
     // See https://www.udemy.com/course/react-testing-library/learn/lecture/36703860
     //   for more details.

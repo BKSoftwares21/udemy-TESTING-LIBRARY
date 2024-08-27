@@ -5,19 +5,23 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 import AlertBanner from "../common/AlertBanner";
 import React from "react";
 
-interface OrderResponse {
+interface Status {
   orderNumber: number;
 }
 
-export default function OrderConfirmation({ setOrderPhase }: { setOrderPhase: (phase: string) => void }) {
+export default function OrderConfirmation({
+  setOrderPhase,
+}: {
+  setOrderPhase: (phase: string) => void;
+}) {
   const { resetOrder } = useOrderDetails();
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     axios
-      .post<OrderResponse>(`http://localhost:3030/order`)
-      .then((response: AxiosResponse<OrderResponse>) => {
+      .post<Status>(`http://localhost:3030/order`)
+      .then((response: AxiosResponse<Status>) => {
         setOrderNumber(response.data.orderNumber);
       })
       .catch(() => setError(true));

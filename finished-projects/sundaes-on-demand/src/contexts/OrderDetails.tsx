@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { pricePerDetails } from "../constants";
-
+import React from "react";
 interface OptionCount {
   [key: string]: number;
 }
