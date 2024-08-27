@@ -3,10 +3,15 @@ import Form from "react-bootstrap/Form";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import React from "react";
 
-export default function ToppingOption({ name, imagePath }) {
-  const { updateItemCount } = useOrderDetails();
-  const handleChange = (e) => {
-    updateItemCount(name, e.target.checked ? 1 : 0, "toppings");
+interface ToppingOptionProps {
+  name: string;
+  imagePath: string;
+}
+
+export default function ToppingOption({ name, imagePath }: ToppingOptionProps) {
+  const { updateDetailsCount } = useOrderDetails();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateDetailsCount(name, e.target.checked ? 1 : 0, "toppings");
   };
 
   return (

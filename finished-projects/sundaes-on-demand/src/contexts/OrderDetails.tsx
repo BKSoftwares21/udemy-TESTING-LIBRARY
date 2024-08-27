@@ -1,77 +1,79 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { pricePerItem } from "../constants";
+import { createContext, useContext, useState } from "react";
+import { pricePerDetails } from "../constants";
 
-interface OptionCounts {
-  scoops: Record<string, number>;
-  toppings: Record<string, number>;
+interface OptionCount {
+  [key: string]: number;
 }
 
-interface Totals {
-  scoops: number;
-  toppings: number;
-}
-
-interface OrderDetailsContextType {
-  optionCounts: OptionCounts;
-  totals: Totals;
-  updateItemCount: (itemName: string, newItemCount: number, optionType: keyof OptionCounts) => void;
+interface OrderDetails {
+  optionCounts: {
+    scoops: OptionCount;
+    toppings: OptionCount;
+  };
+  totals: {
+    scoops: number;
+    toppings: number;
+  };
+  updateDetailsCount: (
+    DetailsName: string,
+    newDetailsCount: number,
+    optionType: "scoops" | "toppings"
+  ) => void;
   resetOrder: () => void;
 }
 
-const OrderDetails = createContext<OrderDetailsContextType | undefined>(undefined);
+const OrderDetails = createContext<OrderDetails | undefined>(undefined);
 
-export function useOrderDetails(): OrderDetailsContextType {
+// create custom hook to check whether we're in a provider
+export function useOrderDetails(): OrderDetails {
   const contextValue = useContext(OrderDetails);
 
   if (!contextValue) {
-    throw new Error("useOrderDetails must be used within an OrderDetailsProvider");
+    throw new Error(
+      "useOrderDetails must be called from within an OrderDetailsProvider"
+    );
   }
 
   return contextValue;
 }
 
-interface OrderDetailsProviderProps {
-  children: ReactNode;
-}
-
-export function OrderDetailsProvider({ children }: OrderDetailsProviderProps) {
-  const [optionCounts, setOptionCounts] = useState<OptionCounts>({
+export function OrderDetailsProvider(props: { children: React.ReactNode }) {
+  const [optionCounts, setOptionCounts] = useState<
+    OrderDetails["optionCounts"]
+  >({
     scoops: {},
     toppings: {},
   });
 
-  const updateItemCount = (
-    itemName: string,
-    newItemCount: number,
-    optionType: keyof OptionCounts
-  ) => {
-    setOptionCounts((prevOptionCounts) => ({
-      ...prevOptionCounts,
-      [optionType]: {
-        ...prevOptionCounts[optionType],
-        [itemName]: newItemCount,
-      },
-    }));
-  };
+  function updateDetailsCount(
+    DetailsName: string,
+    newDetailsCount: number,
+    optionType: "scoops" | "toppings"
+  ) {
+    const newOptionCounts = { ...optionCounts };
+    newOptionCounts[optionType][DetailsName] = newDetailsCount;
+    setOptionCounts(newOptionCounts);
+  }
 
-  const resetOrder = () => {
+  function resetOrder() {
     setOptionCounts({ scoops: {}, toppings: {} });
-  };
-
-  const calculateTotal = (optionType: keyof OptionCounts): number => {
-    const totalCount = Object.values(optionCounts[optionType]).reduce(
-      (total, value) => total + value,
-      0
-    );
-    return totalCount * pricePerItem[optionType];
-  };
+  }
+  function calculateTotal(optionType: "scoops" | "toppings") {
+    const countsArray = Object.values(optionCounts[optionType]);
+    const totalCount = countsArray.reduce((total, value) => total + value, 0);
+    return totalCount * pricePerDetails[optionType];
+  }
 
   const totals = {
     scoops: calculateTotal("scoops"),
     toppings: calculateTotal("toppings"),
   };
 
-  const value = { optionCounts, totals, updateItemCount, resetOrder };
-
-  return <OrderDetails.Provider value={value}>{children}</OrderDetails.Provider>;
+  const value: OrderDetails = {
+    optionCounts,
+    totals,
+    updateDetailsCount,
+    resetOrder,
+  };
+  return <OrderDetails.Provider value={value} {...props} />;
 }

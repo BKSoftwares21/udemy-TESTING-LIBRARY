@@ -120,7 +120,7 @@ Add these to the `rules` object in _.eslintrc.cjs_:
 
 ## Add Automatic ESLint and Prettier formatting on save
 
-1. Install [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions in VSCode if they're not already installed.
+1. Install [ESLint](https://marketplace.visualstudio.com/Detailss?DetailsName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/Detailss?DetailsName=esbenp.prettier-vscode) extensions in VSCode if they're not already installed.
 1. Create _.vscode/settings.json_ file.
 1. Add these contents:
 

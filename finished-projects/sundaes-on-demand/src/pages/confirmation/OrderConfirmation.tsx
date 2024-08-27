@@ -1,35 +1,30 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import Button from "react-bootstrap/Button";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import AlertBanner from "../common/AlertBanner";
 import React from "react";
 
-interface OrderConfirmationProps{
-  
+interface OrderResponse {
+  orderNumber: number;
 }
 
-export default function OrderConfirmation({ setOrderPhase }) {
+export default function OrderConfirmation({ setOrderPhase }: { setOrderPhase: (phase: string) => void }) {
   const { resetOrder } = useOrderDetails();
-  const [orderNumber, setOrderNumber] = useState(null);
+  const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     axios
-      // in a real app we would get order details from context
-      // and send with POST
-      .post(`http://localhost:3030/order`)
-      .then((response) => {
+      .post<OrderResponse>(`http://localhost:3030/order`)
+      .then((response: AxiosResponse<OrderResponse>) => {
         setOrderNumber(response.data.orderNumber);
       })
       .catch(() => setError(true));
   }, []);
 
   function handleClick() {
-    // clear the order details
     resetOrder();
-
-    // send back to order page
     setOrderPhase("inProgress");
   }
 
@@ -46,7 +41,7 @@ export default function OrderConfirmation({ setOrderPhase }) {
     );
   }
 
-  if (orderNumber) {
+  if (orderNumber !== null) {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>Thank You!</h1>

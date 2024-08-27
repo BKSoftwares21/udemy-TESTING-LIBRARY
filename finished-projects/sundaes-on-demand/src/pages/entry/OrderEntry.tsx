@@ -2,8 +2,13 @@ import Button from "react-bootstrap/Button";
 import Options from "./Options";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import { formatCurrency } from "../../utilities";
+import React from "react";
 
-export default function OrderEntry({ setOrderPhase }) {
+interface OrderEntryProps {
+  setOrderPhase: (phase: string) => void;
+}
+
+export default function OrderEntry({ setOrderPhase }: OrderEntryProps) {
   const { totals } = useOrderDetails();
 
   // disable order button if there aren't any scoops in order

@@ -1,3 +1,4 @@
+import Rect from "react";
 import { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -5,16 +6,16 @@ import Row from "react-bootstrap/Row";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import React from "react";
 
-interface ScoopOptionProps{
-  name: string,
-  imagePath: string,
+interface ScoopOptionsProps {
+  name: string;
+  imagePath: string;
 }
 
-export default function ScoopOptions({ name, imagePath }:ScoopOptionProps) {
-  const { updateItemCount } = useOrderDetails();
+export default function ScoopOptions({ name, imagePath }: ScoopOptionsProps) {
+  const { updateDetailsCount } = useOrderDetails();
 
   const [isValid, setIsValid] = useState(true);
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentValue = event.target.value;
 
     // make sure we're using a number and not a string to validate
@@ -29,7 +30,7 @@ export default function ScoopOptions({ name, imagePath }:ScoopOptionProps) {
 
     // adjust scoop count with currentValue if it's valid; 0 if it's not
     const newValue = valueIsValid ? parseInt(currentValue) : 0;
-    updateItemCount(name, newValue, "scoops");
+    updateDetailsCount(name, newValue, "scoops");
   };
 
   return (

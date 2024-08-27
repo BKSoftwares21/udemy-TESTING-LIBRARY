@@ -1,18 +1,18 @@
-import Alert from "react-bootstrap/Alert";
-import React from "react";
+import React, { FunctionComponent } from "react";
+import Alert, { AlertProps } from "react-bootstrap/Alert";
 
-interface AlertProps {
-  message: string,
-   variant :string
+interface AlertBannerProps extends Omit<AlertProps, 'children'> {
+  message?: string;
 }
-export default function AlertBanner({ message, variant }:AlertProps) {
-  const alertMessage =
-    message || "An unexpected error occurred. Please try again later.";
-  const alertVariant = variant || "danger";
+
+const AlertBanner: FunctionComponent<AlertBannerProps> = ({ message, variant = 'danger', ...props }) => {
+  const alertMessage = message || "An unexpected error occurred. Please try again later.";
 
   return (
-    <Alert variant={alertVariant} style={{ backgroundColor: "red" }}>
+    <Alert variant={variant} style={{ backgroundColor: "red" }} {...props}>
       {alertMessage}
     </Alert>
   );
-}
+};
+
+export default AlertBanner;
